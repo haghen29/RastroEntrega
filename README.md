@@ -16,6 +16,7 @@ La primera versión resolvió el negocio: catálogo, carrito, pedidos confirmado
 ```
 src/
 ├── app/                     Rutas de Next.js (páginas y API)
+│   └── api/productos/       Endpoint que expone el catálogo
 ├── services/                Capa de negocio
 │   ├── ProductoService.ts   Contrato (interfaces)
 │   └── impl/                Implementación
@@ -29,15 +30,7 @@ src/
 
 Una ruta nunca habla directo con la base: pide los datos al servicio, y el servicio se los pide al DAO.
 
-En el esquema, el precio no vive en el producto sino en cada medida (5 ml, 10 ml), y el stock se controla por mililitros del frasco original.
-
-## Documentación
-
-| Dónde | Qué hay |
-|---|---|
-| [`specs/`](specs/) | Una carpeta por historia de usuario (spec, diseño, tareas) y el estado del sprint |
-| [`docs/notas-tecnicas.md`](docs/notas-tecnicas.md) | Trampas y decisiones del proyecto: leer antes de tocar algo |
-| [`sql/seed-decants.sql`](sql/seed-decants.sql) | Carga inicial del catálogo de decants en Neon |
+En el esquema, el precio no vive en el producto sino en cada medida (3 ml, 5 ml, 10 ml…), y el stock se controla por mililitros del frasco original.
 
 ## Stack
 
@@ -59,7 +52,6 @@ El diseño es **mobile-first**: casi todo el público entra desde el celular.
 pnpm install
 echo "DATABASE_URL=..." > .env.local   # la cadena de conexión de Neon
 pnpm db:push                 # crea las tablas
-# pegar sql/seed-decants.sql en el SQL Editor de Neon (carga los decants)
 pnpm dev                     # http://localhost:3000
 ```
 
