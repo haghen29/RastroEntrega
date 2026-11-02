@@ -15,17 +15,18 @@ La primera versión resolvió el negocio: catálogo, carrito, pedidos confirmado
 
 ```
 src/
-├── app/                     Rutas de Next.js (páginas y API)
-│   └── api/productos/       Endpoint que expone el catálogo
+├── app/                     Rutas de Next.js (páginas y Server Actions del admin)
+├── components/              Componentes de UI (header, tarjetas, pedido)
 ├── services/                Capa de negocio
 │   ├── ProductoService.ts   Contrato (interfaces)
 │   └── impl/                Implementación
 ├── persistence/dao/         Capa de acceso a datos (DAO)
 │   └── impl/                Implementación con Drizzle
 ├── db/
-│   ├── schema.ts            Tablas: categorías, productos, medidas
+│   ├── schema.ts            Tablas: categorías, productos, medidas, fotos
 │   └── index.ts             Conexión a PostgreSQL (Neon)
-└── lib/                     Instancias de servicios y DAO
+├── lib/                     Instancias de servicios y DAO, pedido, sesión, helpers
+└── proxy.ts                 Protege /admin: sin sesión redirige al login
 ```
 
 Una ruta nunca habla directo con la base: pide los datos al servicio, y el servicio se los pide al DAO.
@@ -38,9 +39,11 @@ En el esquema, el precio no vive en el producto sino en cada medida (3 ml, 5 ml,
 |---|---|
 | Framework | Next.js 16 (App Router, Turbopack), React 19 |
 | Lenguaje | TypeScript |
-| Estilos | Tailwind CSS 4, Radix UI (primitivos accesibles) |
+| Estilos | Tailwind CSS 4, íconos de lucide-react |
 | Base de datos | PostgreSQL serverless en Neon |
 | ORM | Drizzle ORM |
+| Validación | Zod (formularios del admin) |
+| Fotos | Vercel Blob |
 | Deploy | Vercel |
 | Paquetes | pnpm |
 
@@ -50,8 +53,10 @@ El diseño es **mobile-first**: casi todo el público entra desde el celular.
 
 ```bash
 pnpm install
-echo "DATABASE_URL=..." > .env.local   # la cadena de conexión de Neon
+# .env.local con: DATABASE_URL (Neon), ADMIN_PASSWORD,
+# SESSION_SECRET (mínimo 32 caracteres) y BLOB_READ_WRITE_TOKEN
 pnpm db:push                 # crea las tablas
+# cargar los datos: pegar BDRastro.txt en el SQL Editor de Neon
 pnpm dev                     # http://localhost:3000
 ```
 

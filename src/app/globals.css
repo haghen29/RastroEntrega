@@ -1,26 +1,31 @@
+/* Estilos globales. Se importa una sola vez, en layout.tsx. */
+
+/* Trae Tailwind CSS 4. En esta versión no hay tailwind.config.js: la configuración va acá abajo. */
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* Tokens de la marca (ver skill estilo-rastro). En componentes se usan
+   como clases: bg-crema, text-tinta, border-arena... nunca hex sueltos. */
+/* Cada --color-X genera las clases bg-X, text-X, border-X, etc. */
+/* Si se cambia un color acá, cambia en toda la tienda. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-crema: #faf6f3;
+  --color-crema-2: #f4f1ec;
+  --color-arena: #e3dacd;
+  --color-tostado: #b9ab97;
+  --color-tinta: #171717;
+  --color-tinta-suave: #75684f;
+  --color-whatsapp: #25d366;
+  /* la fuente Geist la carga layout.tsx en la variable --font-geist-sans */
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* La tienda solo tiene modo claro: evita que el navegador oscurezca los formularios */
+:root {
+  color-scheme: light;
 }
 
+/* Fondo y color de texto por defecto de toda la página */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-crema);
+  color: var(--color-tinta);
 }
